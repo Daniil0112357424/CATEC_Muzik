@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CATEC_Muzik</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/5577/5577489.png" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #f3ec78, #af4261);
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        .nav-button {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .nav-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .search-button {
+            font-weight: bold;
+            font-size: 20px;
+            padding: 10px 16px;
+            background: #ffcc00;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .search-button:hover {
+            background: #e6b800;
+        }
+        .song-list {
+            list-style: none;
+            padding: 0;
+            width: 80%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        .song-list li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .song-list li:last-child {
+            border-bottom: none;
+        }
+        .top {
+            text-align: center;
+        }
+        .song-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .hz {
+            margin-right: 50px;
+        }
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -290px; /* Скрыто за экраном */
+            width: 250px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            transition: right 0.3s ease;
+        }
+        .side-menu.open {
+            right: 0; /* Выдвигается на экран */
+        }
+        .menu-item {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .search-container {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        #searchInput {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        #searchInput:focus {
+            border-color: #ffcc00;
+            box-shadow: 0 2px 10px rgba(255, 204, 0, 0.5);
+            outline: none;
+        }
+        .search-container button {
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px 20px;
+            background: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .search-container button:hover {
+            background: #e6b800;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="nav-button">О нас</a>
+        <a href="#" class="nav-button">Домой</a>
+        <button class="nav-button search-button" onclick="toggleSearch()">Поиск</button>
+        <a href="#" class="nav-button">Поддержка</a>
+        <button class="nav-button" onclick="toggleMenu()">Меню</button>
+    </header>
+    
+    <div class="search-container" id="searchContainer">
+        <input type="text" id="searchInput" placeholder="Введите первый символ...">
+        <button class="nav-button" onclick="searchSongs()">Найти</button>
+    </div>
+    
+    <div class="top-songs">
+        <h2 class="top">Топ-10 популярных песен</h2>
+        <ul class="song-list" id="songList">
+            <li data-title="Never Be Alone">
+                <div class="song-title">Never Be Alone</div>
+                <iframe class="hz" src="https://open.spotify.com/embed/track/3Mi2DxVPiT7j2EHdxOFCg3" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="Basics In Behavior">
+                <div class="song-title">Basics In Behavior</div>
+                <iframe src="https://open.spotify.com/embed/track/4qld5YulAobGzvI1F0Bo8t" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="Всё было так">
+                <div class="song-title">Всё было так</div>
+                <iframe src="https://open.spotify.com/embed/track/6BKHtmX1MHpLwMzN0xoJoT" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="Stuck Inside">
+                <div class="song-title">Stuck Inside</div>
+                <iframe src="https://open.spotify.com/embed/track/725gkdHSkTogsY5xyRWUHJ" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="My Ordinary life">
+                <div class="song-title">My Ordinary life</div>
+                <iframe src="https://open.spotify.com/embed/track/3FdopY118eIYv5COjji7Sa?si=BxBLRcizSjqmEuDuXO--VA" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="Rambley Review">
+                <div class="song-title">Rambley Review</div>
+                <iframe src="https://open.spotify.com/embed/track/6l1v42VTPQJxtqcZ5uWvqR?si=yl0G3xM2RCGMom54yz57WA" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="Loser, Baby">
+                <div class="song-title">Loser, Baby</div>
+                <iframe src="https://open.spotify.com/embed/track/7sRz3vO2bEMhZGEkjnfMxb?si=3uYcdIcXRCWcqZxHmbsv-Q" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="Слова-паразиты">
+                <div class="song-title">Слова-паразиты</div>
+                <iframe src="https://open.spotify.com/embed/track/2dWKC60VRp7CSXy5kLk74o?si=R57O5U1xSUGThi3btDQQjw" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="The Code">
+                <div class="song-title">The Code</div>
+                <iframe src="https://open.spotify.com/embed/track/1EjIXKhNHI00ZLMRpS8iz8?si=iqGussmTT-WIyJ2_GSoZGg" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+            <li data-title="Fairytale">
+                <div class="song-title">Fairytale</div>
+                <iframe src="https://open.spotify.com/embed/track/3MnAsEBBsEj86d03RgO4EM?si=akotdNXlSHK3zbcSDjHXgA" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+        </ul>
+    </div>
+
+    <div class="side-menu" id="sideMenu">
+        <a href="#" class="menu-item">Главная</a>
+        <a href="#" class="menu-item">О нас</a>
+        <a href="#" class="menu-item">Контакты</a>
+        <a href="#" class="menu-item">Помощь</a>
+    </div>
+
+    <script>
+        function toggleSearch() {
+            const searchContainer = document.getElementById("searchContainer");
+            searchContainer.style.display = searchContainer.style.display === "none" ? "block" : "none";
+        }
+
+        function searchSongs() {
+            const searchChar = document.getElementById("searchInput").value.toLowerCase();
+            const songs = document.querySelectorAll(".song-list li");
+            
+            songs.forEach(song => {
+                const title = song.getAttribute("data-title").toLowerCase();
+                song.style.display = title.startsWith(searchChar) ? "block" : "none";
+            });
+        }
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                searchSongs();
+            }
+        });
+        function toggleMenu() {
+            const sideMenu = document.getElementById("sideMenu");
+            sideMenu.classList.toggle("open");
+        }
+    </script>
+</body>
+</html>
